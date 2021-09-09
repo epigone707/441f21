@@ -11,6 +11,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import kotlin.reflect.full.declaredMemberProperties
 
+// ChattStore is the Model of our app
 object ChattStore {
     val chatts = arrayListOf<Chatt?>()
     private val nFields = Chatt::class.declaredMemberProperties.size

@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import edu.umich.yanfuguo.kotlinChatter.databinding.ListitemChattBinding
 
-// It is the controller that intermediates between the view and the model.
+// ChattListAdapter is the controller that intermediates between the view and the model.
+// reference: https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
+// an ArrayAdapter that convert Chatt into View
 class ChattListAdapter(context: Context, users: ArrayList<Chatt?>) :
     ArrayAdapter<Chatt?>(context, 0, users) {
 
@@ -18,6 +20,7 @@ class ChattListAdapter(context: Context, users: ArrayList<Chatt?>) :
             rowView.tag = ListitemChattBinding.bind(rowView) // cache binding
             rowView.tag
         }) as ListitemChattBinding
+
 
         getItem(position)?.run {
             listItemView.usernameTextView.text = username

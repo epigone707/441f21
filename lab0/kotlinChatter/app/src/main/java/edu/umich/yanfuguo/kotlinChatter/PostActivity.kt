@@ -21,6 +21,7 @@ class PostActivity : AppCompatActivity() {
         setContentView(view.root)
     }
 
+
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         menu?.apply {
             add(NONE, FIRST, NONE, getString(R.string.send))
