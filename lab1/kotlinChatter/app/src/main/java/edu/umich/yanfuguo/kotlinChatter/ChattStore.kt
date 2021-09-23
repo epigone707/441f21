@@ -3,9 +3,6 @@ package edu.umich.yanfuguo.kotlinChatter
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley.newRequestQueue
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -20,7 +17,6 @@ object ChattStore {
     val chatts = arrayListOf<Chatt?>()
     private val nFields = Chatt::class.declaredMemberProperties.size
 
-    private lateinit var queue: RequestQueue
     private const val serverUrl = "https://3.144.110.108/"
 
     private val client = OkHttpClient()
