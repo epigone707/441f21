@@ -7,29 +7,29 @@ import android.os.Bundle
 import android.view.View
 import edu.umich.yanfuguo.kotlinChatter.ChattStore.chatts
 import edu.umich.yanfuguo.kotlinChatter.ChattStore.getChatts
-import edu.umich.yanfuguo.kotlinChatter.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var view: ActivityMainBinding
     private lateinit var chattListAdapter: ChattListAdapter
+    private lateinit var view: MainView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        view = ActivityMainBinding.inflate(layoutInflater)
-        view.root.setBackgroundColor(Color.parseColor("#E0E0E0"))
-        setContentView(view.root)
+
+        view = MainView(this)
 
         chattListAdapter = ChattListAdapter(this, chatts)
         view.chattListView.setAdapter(chattListAdapter)
 
-        // setup refreshContainer here later
-        view.refreshContainer.setOnRefreshListener {
-            refreshTimeline()
+        view.postButton.setOnClickListener {
+            startActivity(Intent(this, PostActivity::class.java))
         }
+
+        view.refreshContainer.setOnRefreshListener { refreshTimeline() }
+
+        setContentView(view)
+
         refreshTimeline()
     }
-
-    fun startPost(view: View?) = startActivity(Intent(this, PostActivity::class.java))
 
     private fun refreshTimeline() {
         getChatts(applicationContext) {

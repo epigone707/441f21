@@ -7,18 +7,17 @@ import android.view.Menu.FIRST
 import android.view.Menu.NONE
 import android.view.MenuItem
 import edu.umich.yanfuguo.kotlinChatter.ChattStore.postChatt
-import edu.umich.yanfuguo.kotlinChatter.databinding.ActivityPostBinding
 
 class PostActivity : AppCompatActivity() {
 
-    private lateinit var view: ActivityPostBinding
+    private lateinit var view: PostView
     private var enableSend = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        view = ActivityPostBinding.inflate(layoutInflater)
-        setContentView(view.root)
+        view = PostView(this)
+        setContentView(view)
     }
 
 
