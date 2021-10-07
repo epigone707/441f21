@@ -63,7 +63,6 @@ def getimages(request):
         return JsonResponse(response)
 
 # Create your views here#
-@csrf_exempt
 def postchatt(request):
     if request.method != 'POST':
         return HttpResponse(status=404)
@@ -73,4 +72,32 @@ def postchatt(request):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO chatts (username, message) VALUES '
                    '(%s, %s);', (username, message))
+    return JsonResponse({}
+
+
+
+def postmaps(request):
+    if request.method != 'POST':
+        return HttpResponse(status=404)
+    json_data = json.loads(request.body)
+    username = json_data['username']
+    message = json_data['message']
+    geodata = json_data['geodata']
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO maps (username, message, geodata) VALUES '
+                   '(%s, %s, %s);', (username, message, geodata))
     return JsonResponse({})
+
+
+def getmaps(request):
+    if request.method != 'GET':
+    	return HttpResponse(status=404)
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM maps ORDER BY time DESC;')
+    rows = cursor.fetchall()
+       
+    response = {}
+    response['chatts'] = rows
+    return JsonResponse(response)
+
+
