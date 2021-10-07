@@ -1,0 +1,4 @@
+Your team grade for lab1 is
+100/100
+
+DM @staff on Slack if you want to see the class grade distribution.
