@@ -8,19 +8,36 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.getChatts
 import edu.umich.yanfuguo.kotlinjpcchatter.ui.theme.KotlinJpCChatterTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getChatts(applicationContext){}
+
         setContent {
-            KotlinJpCChatterTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+            val navController = rememberNavController()
+            NavHost(navController, startDestination = "MainView") {
+                composable("MainView") {
+                    MainView(this@MainActivity, navController)
+                }
+                composable("PostView") {
+                    PostView(this@MainActivity, navController)
                 }
             }
         }
+//        setContent {
+//            KotlinJpCChatterTheme {
+//                // A surface container using the 'background' color from the theme
+//                Surface(color = MaterialTheme.colors.background) {
+//                    Greeting("Android")
+//                }
+//            }
+//        }
     }
 }
 
