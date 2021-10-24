@@ -25,6 +25,10 @@ class PlayerUIState(): Parcelable {
     var playCtlEnabled = false
     var playCtlColor = Color.LightGray
 
+    var stopIcon = R.drawable.ic_baseline_stop_24
+    var ffwdIcon = R.drawable.ic_baseline_forward_10_24
+    var rwndIcon = R.drawable.ic_baseline_replay_10_24
+
     var playEnabled = false
     var playColor = Color.LightGray
     var playIcon = R.drawable.ic_baseline_play_arrow_24 // initial value
@@ -204,6 +208,78 @@ fun DoneButton(navController: NavController, audioPlayer: AudioPlayer, playerUIS
             modifier=Modifier.scale(1.7f).padding(end=8.dp),
             contentDescription = stringResource(R.string.doneButton),
             tint = playerUIState.doneColor
+        )
+    }
+}
+
+@Composable
+fun StopButton(audioPlayer: AudioPlayer, playerUIState: PlayerUIState) {
+    Button(onClick = {
+        audioPlayer.stopTapped()
+    },
+        enabled = playerUIState.playCtlEnabled,
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White,
+            disabledBackgroundColor = Color.White),
+        elevation = ButtonDefaults.elevation(0.dp)
+    ) {
+        Icon(painter = painterResource(playerUIState.stopIcon),
+            modifier=Modifier.scale(1.7f).padding(end=8.dp),
+            contentDescription = stringResource(R.string.stopButton),
+            tint = playerUIState.playCtlColor
+        )
+    }
+}
+
+@Composable
+fun RwndButton(audioPlayer: AudioPlayer, playerUIState: PlayerUIState) {
+    Button(onClick = {
+        audioPlayer.rwndTapped()
+    },
+        enabled = playerUIState.playCtlEnabled,
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White,
+            disabledBackgroundColor = Color.White),
+        elevation = ButtonDefaults.elevation(0.dp)
+    ) {
+        Icon(painter = painterResource(playerUIState.rwndIcon),
+            modifier=Modifier.scale(1.7f).padding(end=8.dp),
+            contentDescription = stringResource(R.string.rwndButton),
+            tint = playerUIState.playCtlColor
+        )
+    }
+}
+
+@Composable
+fun PlayButton(audioPlayer: AudioPlayer, playerUIState: PlayerUIState) {
+    Button(onClick = {
+        audioPlayer.playTapped()
+    },
+        enabled = playerUIState.playEnabled,
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White,
+            disabledBackgroundColor = Color.White),
+        elevation = ButtonDefaults.elevation(0.dp)
+    ) {
+        Icon(painter = painterResource(playerUIState.playIcon),
+            modifier=Modifier.scale(1.7f).padding(end=8.dp),
+            contentDescription = stringResource(R.string.playButton),
+            tint = playerUIState.playColor
+        )
+    }
+}
+
+@Composable
+fun FfwdButton(audioPlayer: AudioPlayer, playerUIState: PlayerUIState) {
+    Button(onClick = {
+        audioPlayer.ffwdTapped()
+    },
+        enabled = playerUIState.playCtlEnabled,
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White,
+            disabledBackgroundColor = Color.White),
+        elevation = ButtonDefaults.elevation(0.dp)
+    ) {
+        Icon(painter = painterResource(playerUIState.ffwdIcon),
+            modifier=Modifier.scale(1.7f).padding(end=8.dp),
+            contentDescription = stringResource(R.string.ffwdButton),
+            tint = playerUIState.playCtlColor
         )
     }
 }

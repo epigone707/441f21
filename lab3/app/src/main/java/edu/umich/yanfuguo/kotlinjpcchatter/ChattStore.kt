@@ -23,12 +23,21 @@ object ChattStore {
     fun postChatt(context: Context, chatt: Chatt) {
         val jsonObj = mapOf(
             "username" to chatt.username,
-            "message" to chatt.message
+            "message" to chatt.message,
+            "audio" to chatt.audio
         )
-        val postRequest = JsonObjectRequest(
-            Request.Method.POST,
-            serverUrl+"postchatt/", JSONObject(jsonObj),
-            { Log.d("postChatt", "chatt posted!") },
+        val postRequest = JsonObjectRequest(Request.Method.POST,
+            serverUrl+"postaudio/", JSONObject(jsonObj),
+            {
+                Log.d("postChatt", "chatt posted!")
+                // call getChatts() here to retrieve an updated list of chatts
+                // from the back end. We take advantage of reactive update of
+                // MainView to have it display an updated timeline automatically
+                // without the user having to swipe to refresh. Recall that thanks
+                // to reactive UI, MainView will update automatically when the chatt
+                // array in ChattStore is updated.
+                getChatts(context){}
+            },
             { error -> Log.e("postChatt", error.localizedMessage ?: "JsonObjectRequest error") }
         )
 
@@ -39,7 +48,7 @@ object ChattStore {
     }
 
     fun getChatts(context: Context, completion: () -> Unit) {
-        val getRequest = JsonObjectRequest(serverUrl+"getchatts/",
+        val getRequest = JsonObjectRequest(serverUrl+"getaudio/",
             { response ->
                 chatts.clear()
                 val chattsReceived = try { response.getJSONArray("chatts") } catch (e: JSONException) { JSONArray() }
@@ -48,7 +57,9 @@ object ChattStore {
                     if (chattEntry.length() == nFields) {
                         chatts.add(Chatt(username = chattEntry[0].toString(),
                             message = chattEntry[1].toString(),
-                            timestamp = chattEntry[2].toString()))
+                            timestamp = chattEntry[2].toString(),
+                            audio = chattEntry[3].toString()
+                        ))
                     } else {
                         Log.e("getChatts", "Received unexpected number of fields: " + chattEntry.length().toString() + " instead of " + nFields.toString())
                     }
