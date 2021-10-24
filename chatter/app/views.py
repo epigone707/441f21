@@ -95,9 +95,10 @@ def postaudio(request):
     json_data = json.loads(request.body)
     username = json_data['username']
     message = json_data['message']
+    audio = json_data['audio']
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO chatts (username, message) VALUES '
-                   '(%s, %s);', (username, message))
+    cursor.execute('INSERT INTO audio (username, message, audio) VALUES '
+                   '(%s, %s, %s);', (username, message, audio))
     return JsonResponse({})
 
 @csrf_exempt
