@@ -12,6 +12,7 @@ sealed class PlayerState {
     object recording: PlayerState()
     class playing(val parent: StartMode): PlayerState()
     class paused(val grand: StartMode): PlayerState()
+
     fun transition(event: TransEvent): PlayerState {
         return when (this) {
             is start -> when (mode) {
