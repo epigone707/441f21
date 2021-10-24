@@ -3,6 +3,8 @@ package edu.umich.yanfuguo.kotlinjpcchatter
 import android.content.Context
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Base64
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -10,7 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import java.io.*
 
-class AudioPlayer() {
+class AudioPlayer() : Parcelable {
     // Upon instantiation, AudioPlayer starts in the standby mode of its start state
     var playerState by mutableStateOf<PlayerState>(PlayerState.start(StartMode.standby))
     var audio = ByteArray(0)
@@ -18,6 +20,12 @@ class AudioPlayer() {
     private lateinit var audioFilePath: String
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var mediaRecorder: MediaRecorder
+    
+
+    constructor(parcel: Parcel) : this() {
+        audio = parcel.createByteArray() ?: ByteArray(0)
+        audioFilePath = parcel.readString()!!
+    }
 
     constructor(context: Context, extFilePath: String): this() {
         audioFilePath = extFilePath
@@ -166,5 +174,24 @@ class AudioPlayer() {
     fun doneTapped() {
         mediaPlayer.reset()
         mediaRecorder.reset()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeByteArray(audio)
+        parcel.writeString(audioFilePath)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<AudioPlayer> {
+        override fun createFromParcel(parcel: Parcel): AudioPlayer {
+            return AudioPlayer(parcel)
+        }
+
+        override fun newArray(size: Int): Array<AudioPlayer?> {
+            return arrayOfNulls(size)
+        }
     }
 }
