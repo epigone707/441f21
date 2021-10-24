@@ -25,4 +25,6 @@ urlpatterns = [
     path('postimages/', views.postimages, name='postimages'),
     path('getmaps/', views.getmaps, name='getmaps'),
     path('postmaps/', views.postmaps, name='postmaps'),
+    path('getaudio/', views.getaudio, name='getaudio'),
+    path('postaudio/', views.postaudio, name='postaudio'),
 ]
