@@ -4,4 +4,12 @@
     <string name="post">Post</string>
     <string name="send">Send</string>
     <string name="username">yanfuguo</string>
+    <string name="back">Back</string>
+    <string name="audio">Audio</string>
+    <string name="doneButton">done</string>
+    <string name="rwndButton">rwnd</string>
+    <string name="ffwdButton">ffwd</string>
+    <string name="playButton">play</string>
+    <string name="stopButton">stop</string>
+    <string name="recButton">rec</string>
 </resources>
