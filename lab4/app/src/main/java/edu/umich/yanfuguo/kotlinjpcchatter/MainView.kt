@@ -65,9 +65,8 @@ fun MainView(context: Context, navController: NavHostController) {
             state = rememberSwipeRefreshState(isRefreshing),
             modifier = Modifier.background(color = Color(0xFFEFEFEF)),
             onRefresh = {
-                getChatts(context){
-                    isRefreshing = false
-                }
+                getChatts()
+                isRefreshing = false
             }
         ) {
             // describe the View

@@ -13,11 +13,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.getChatts
 import edu.umich.yanfuguo.kotlinjpcchatter.ui.theme.KotlinJpCChatterTheme
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getChatts(applicationContext){}
+        getChatts()
 
         setContent {
             val navController = rememberNavController()
@@ -28,16 +30,11 @@ class MainActivity : ComponentActivity() {
                 composable("PostView") {
                     PostView(this@MainActivity, navController)
                 }
+                composable("SigninView") {
+                    SigninView(this@MainActivity, navController)
+                }
             }
         }
-//        setContent {
-//            KotlinJpCChatterTheme {
-//                // A surface container using the 'background' color from the theme
-//                Surface(color = MaterialTheme.colors.background) {
-//                    Greeting("Android")
-//                }
-//            }
-//        }
     }
 }
 

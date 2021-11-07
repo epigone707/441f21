@@ -22,10 +22,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.getChatts
 import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.postChatt
+import edu.umich.yanfuguo.kotlinjpcchatter.ChatterID.id
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun PostView(context: Context, navController: NavHostController) {
+
+    var isPresented by rememberSaveable { mutableStateOf(false) }
+
+    // check whether we have a valid ChatterID. If not, and this is not
+    // a recomposition of PostView() (due to navigation transition animation),
+    // navigate to SigninView to get one
+    id ?: if (!isPresented) {
+        isPresented = true  // ignore Android Studio warning that isPresented is never used
+        navController.navigate("SigninView")
+    }
+
+
     val username = stringResource(R.string.username)
     var message by remember { mutableStateOf("Some short sample text.") }
     var enableSend by rememberSaveable { mutableStateOf(true) }
@@ -41,8 +57,21 @@ fun PostView(context: Context, navController: NavHostController) {
                 }
             },
             actions = { IconButton(onClick = {
+                // ensure that no chatt is posted without a valid chatterID
+                id ?: run {
+                    context.toast("Error signing in. Please try again.")
+                    navController.popBackStack("MainView", inclusive=false)
+                }
                 enableSend = false
-                postChatt(context, Chatt(username, message))
+                // Since the call to postChatt() is from the onClick event handler,
+                // which is not a suspending function and cannot be converted into
+                // a suspending function, we have to put the call to postChatt()
+                // inside a coroutine scope.
+                MainScope().launch {
+                    if (postChatt(Chatt(username, message))) {
+                        getChatts() // refresh timeline -> auto recompose view
+                    }
+                }
                 navController.popBackStack("MainView", inclusive = false)
             }, enabled = enableSend) {
                 Icon(painter = painterResource(android.R.drawable.ic_menu_send), stringResource(R.string.send))

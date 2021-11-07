@@ -2,7 +2,8 @@
 buildscript {
     ext {
         kotlin_version = '1.5.31'
-        compose_version = '1.0.4'
+        https://developer.android.com/jetpack/androidx/releases/compose
+        compose_version = '1.0.4' // 1.1.0-alpha06 requires Android 12
     }
     repositories {
         google()
