@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.runtime.*
 import edu.umich.yanfuguo.kotlinjpcchatter.ChatterID.expiration
 import edu.umich.yanfuguo.kotlinjpcchatter.ChatterID.id
+import edu.umich.yanfuguo.kotlinjpcchatter.ChatterID.save
 import edu.umich.yanfuguo.kotlinjpcchatter.R.string.clientID
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -168,6 +169,7 @@ object ChattStore: CoroutineScope by MainScope() {
                 id?.let {
                     userAdded = true
                     // will save() chatterID later
+                    save(context)
                 }
             } else {
                 Log.e("addUser", response.errorBody()?.string() ?: "Retrofit error")

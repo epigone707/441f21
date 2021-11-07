@@ -3,23 +3,34 @@ package edu.umich.yanfuguo.kotlinjpcchatter
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.chatts
+import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.postChatt
 import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.getChatts
+import edu.umich.yanfuguo.kotlinjpcchatter.ChatterID.id
+import edu.umich.yanfuguo.kotlinjpcchatter.ChatterID.open
+import kotlinx.coroutines.*
 
+@ExperimentalCoroutinesApi
 @Composable
 fun MainView(context: Context, navController: NavHostController) {
     /*
@@ -46,7 +57,10 @@ fun MainView(context: Context, navController: NavHostController) {
                 modifier = Modifier.padding(0.dp, 0.dp, 8.dp, 8.dp),
                 onClick = {
                     // navigate to PostView
-                    navController.navigate("PostView")
+                    MainScope().launch {
+                        open(context)
+                        navController.navigate("PostView")
+                    }
                 }
             ) {
                 Icon(Icons.Default.Add, stringResource(R.string.post))
