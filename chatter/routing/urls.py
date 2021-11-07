@@ -27,4 +27,6 @@ urlpatterns = [
     path('postmaps/', views.postmaps, name='postmaps'),
     path('getaudio/', views.getaudio, name='getaudio'),
     path('postaudio/', views.postaudio, name='postaudio'),
+    path('postauth/', views.postauth, name='postauth'),
+    path('adduser/', views.adduser, name='adduser'),
 ]
