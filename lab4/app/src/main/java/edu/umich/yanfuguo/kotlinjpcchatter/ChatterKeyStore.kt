@@ -31,6 +31,7 @@ class ChatterKeyStore(val authenticate: Boolean) {
                             .setEncryptionPaddings(KEY_PADDING)
                             .setKeySize(256)
                             .setUserAuthenticationRequired(authenticate)
+                            .setUserAuthenticationParameters(0, KeyProperties.AUTH_BIOMETRIC_STRONG or KeyProperties.AUTH_DEVICE_CREDENTIAL)
                             .build()
                     )
                 }.generateKey()
