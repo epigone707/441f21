@@ -25,7 +25,7 @@ import androidx.navigation.NavHostController
 import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.postChatt
 
 @Composable
-fun PostView(context: Context, navController: NavHostController) {
+fun PostView(context: Context, navController: NavHostController, audioPlayer: AudioPlayer) {
     val username = stringResource(R.string.username)
     var message by remember { mutableStateOf("Some short sample text.") }
     var enableSend by rememberSaveable { mutableStateOf(true) }
@@ -42,7 +42,8 @@ fun PostView(context: Context, navController: NavHostController) {
             },
             actions = { IconButton(onClick = {
                 enableSend = false
-                postChatt(context, Chatt(username, message))
+                postChatt(context, Chatt(username, message,
+                    audio = Base64.encodeToString(audioPlayer.audio, Base64.DEFAULT)))
                 navController.popBackStack("MainView", inclusive = false)
             }, enabled = enableSend) {
                 Icon(painter = painterResource(android.R.drawable.ic_menu_send), stringResource(R.string.send))
@@ -57,13 +58,35 @@ fun PostView(context: Context, navController: NavHostController) {
                 modifier = Modifier.padding(0.dp, 30.dp, 0.dp, 0.dp).fillMaxWidth(1f),
                 textAlign= TextAlign.Center,
                 fontSize = 20.sp)
-            TextField(
-                value = message,
-                onValueChange = { message = it },
-                modifier = Modifier.padding(8.dp, 20.dp, 8.dp, 0.dp).fillMaxWidth(1f),
-                textStyle = TextStyle(fontSize = 17.sp),
-                colors = TextFieldDefaults.textFieldColors(backgroundColor=Color(0xffffffff))
-            )
+            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier=Modifier.fillMaxWidth(1f)) {
+                TextField(
+                    value = message,
+                    onValueChange = { message = it },
+                    modifier = Modifier.padding(8.dp, 20.dp, 8.dp, 0.dp).fillMaxWidth(.8f),
+                    textStyle = TextStyle(fontSize = 17.sp),
+                    colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent)
+                )
+                IconButton(
+                    onClick = {
+                        navController.navigate("AudioView")
+                    },
+                    modifier = Modifier.padding(end = 4.dp).align(Alignment.Bottom)
+                ) {
+                    if (audioPlayer.audio.size == 0) {
+                        Icon(painter = painterResource(R.drawable.ic_baseline_mic_none_24),
+                            contentDescription = stringResource(R.string.audio),
+                            modifier = Modifier.scale(1.8f),
+                            tint = Color.OpenMic
+                        )
+                    } else {
+                        Icon(painter = painterResource(R.drawable.ic_baseline_mic_24),
+                            contentDescription = stringResource(R.string.audio),
+                            modifier = Modifier.scale(1.8f),
+                            tint = Color.FilledMic
+                        )
+                    }
+                }
+            }
         }
     }
 }

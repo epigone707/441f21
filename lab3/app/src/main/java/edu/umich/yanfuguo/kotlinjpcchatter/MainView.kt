@@ -21,7 +21,7 @@ import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.chatts
 import edu.umich.yanfuguo.kotlinjpcchatter.ChattStore.getChatts
 
 @Composable
-fun MainView(context: Context, navController: NavHostController) {
+fun MainView(context: Context, navController: NavHostController, audioPlayer: AudioPlayer) {
     /*
         Even though isRefreshing is a MutableState, it is declared
         inside a composable, which means that it is destroyed and
@@ -45,7 +45,7 @@ fun MainView(context: Context, navController: NavHostController) {
                 contentColor = Color(0xFF00FF00),
                 modifier = Modifier.padding(0.dp, 0.dp, 8.dp, 8.dp),
                 onClick = {
-                    // navigate to PostView
+                    audioPlayer.setupRecorder()
                     navController.navigate("PostView")
                 }
             ) {
@@ -77,7 +77,7 @@ fun MainView(context: Context, navController: NavHostController) {
                     .background(color = Color(0xFFEFEFEF))
             ) {
                 items(count = chatts.size) { index ->
-                    ChattListRow(index, chatts[index])
+                    ChattListRow(index, chatts[index], navController, audioPlayer)
                 }
             }
         }
